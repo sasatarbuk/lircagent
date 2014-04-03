@@ -1,0 +1,127 @@
+#
+# LircAgent Test
+#
+
+begin
+     remote = LircAgent Remote
+     prog = LircAgent Test
+     button = Green
+     config = PLAY
+     repeat = 0
+     delay = 0
+end
+
+begin
+     remote = LircAgent Remote
+     prog = LircAgent Test
+     button = Yellow
+     config = STOP
+     repeat = 0
+     delay = 0
+end
+
+begin
+     remote = LircAgent Remote
+     prog = LircAgent Test
+     button = Blue
+     config = FWD
+     repeat = 2
+     delay = 4
+end
+
+begin
+     remote = LircAgent Remote
+     prog = LircAgent Test
+     button = Red
+     config = BWD
+     repeat = 2
+     delay = 4
+end
+
+begin
+     prog = LircAgent Test
+     button = Ok
+     config = PLAYPAUSE
+     repeat = 0
+end
+
+begin
+     prog = LircAgent Test
+     button = 1
+     config = NUM1
+     repeat = 0
+end
+
+begin
+     prog = LircAgent Test
+     button = 2
+     config = NUM2
+     repeat = 0
+end
+
+begin
+     prog = LircAgent Test
+     button = 3
+     config = NUM3
+     repeat = 0
+end
+
+begin
+     prog = LircAgent Test
+     button = Down
+     config = NEXT1
+     config = NEXT2
+     repeat = 0
+end
+
+begin
+     prog = LircAgent Test
+     button = Up
+     config = PREV1
+     config = PREV2
+     repeat = 0
+end
+
+begin
+     prog = LircAgent Test
+     button = Right
+     config = VOL_UP
+     repeat = 1
+     delay = 3
+end
+
+begin
+     prog = LircAgent Test
+     button = Left
+     config = VOL_DOWN
+     repeat = 1
+     delay = 3
+end
+
+begin
+     prog = LircAgent Test
+     button = Back
+     config = REPEAT
+     repeat = 0
+end
+
+begin
+     prog = LircAgent Test
+     button = Mute
+     config = MUTE
+     repeat = 0
+end
+
+begin
+     prog = LircAgent Test
+     button = Power
+     config = QUIT
+     repeat = 0
+end
+
+begin
+     prog = Another Program
+     button = Button
+     config = COMMAND
+     repeat = 0
+end
