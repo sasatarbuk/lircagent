@@ -66,3 +66,11 @@ $myHandler = new MyHandler();
 $agent = new Lirc\Agent($socket, $lircrc, $appName, $myHandler);
 $agent->loop();
 ```
+
+Non-blocking mode:
+```php
+while(true) {
+    $agent->iteration();
+    usleep(20000);
+}
+```
