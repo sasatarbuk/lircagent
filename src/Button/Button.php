@@ -35,6 +35,11 @@ class Button extends SequenceItem
     
     public function handlePress($iteration, $remote)
     {
+        // No registered sequences for this button - exit
+        if (count($this->_sequences) < 1) {
+            return array();
+        }
+        
         // Reset broken sequences. Iteration must be zero so that subsequent
         // iterations of the same button are not detected as broken
         if ($iteration == 0) {

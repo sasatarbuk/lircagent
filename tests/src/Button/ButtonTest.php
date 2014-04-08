@@ -76,5 +76,8 @@ class ButtonTest extends \PHPUnit_Framework_TestCase
             $buttonSequenceRegistry->getRunning()
         );
         
+        $button3 = new Button('Button3');
+        $pressed = $button3->handlePress('1', 'Remote.conf');
+        $this->assertEmpty($pressed);
     }
 }
