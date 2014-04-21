@@ -1,5 +1,7 @@
 LircAgent
 =========
+[![Build Status](https://travis-ci.org/sasatarbuk/lircagent.svg?branch=master)](https://travis-ci.org/sasatarbuk/lircagent)
+
 LircAgent is a simple library for receiving LIRC events in your PHP application. 
 
 Installation
