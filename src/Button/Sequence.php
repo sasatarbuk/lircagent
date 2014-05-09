@@ -7,16 +7,16 @@ use Lirc\Config\Sequence as ConfigSequence;
 
 class Sequence extends BaseSequence
 {
-    private $_configSequence;
+    private $configSequence;
     
     public function __construct(ConfigSequence $configSequence)
     {
-        $this->_configSequence = $configSequence;
+        $this->configSequence = $configSequence;
     }
     
     public function getConfigSequence()
     {
-        return $this->_configSequence;
+        return $this->configSequence;
     }
     
     public function reset()

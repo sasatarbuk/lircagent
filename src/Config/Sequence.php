@@ -6,37 +6,37 @@ use Lirc\Sequence\Sequence as BaseSequence;
 
 class Sequence extends BaseSequence
 {
-    private $_remote;
-    private $_repeat = 0;
-    private $_delay = 0;
+    private $remote;
+    private $repeat = 0;
+    private $delay = 0;
     
     public function setRemote($remote)
     {
-        $this->_remote = $remote;
+        $this->remote = $remote;
     }
     
     public function setRepeat($repeat)
     {
-        $this->_repeat = $repeat;
+        $this->repeat = $repeat;
     }
     
     public function setDelay($delay)
     {
-        $this->_delay = $delay;
+        $this->delay = $delay;
     }
     
     public function getRemote()
     {
-        return $this->_remote;
+        return $this->remote;
     }
     
     public function getRepeat()
     {
-        return $this->_repeat;
+        return $this->repeat;
     }
     
     public function getDelay()
     {
-        return $this->_delay;
+        return $this->delay;
     }
 }

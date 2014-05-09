@@ -4,15 +4,15 @@ namespace Lirc\Sequence;
 
 abstract class Item
 {
-    private $_name;
+    private $name;
     
     public function __construct($name)
     {
-        $this->_name = $name;
+        $this->name = $name;
     }
     
     public function getName()
     {
-        return $this->_name;
+        return $this->name;
     }
 }

@@ -4,11 +4,11 @@ namespace Lirc\Button;
 
 class SequenceRegistry
 {
-    private $_running = array();
+    private $running = array();
     
     public function resetBrokenRunning(Button $currentButton)
     {
-        foreach ($this->_running as $key => $sequence) {
+        foreach ($this->running as $key => $sequence) {
             if ($sequence->getCurrent() !== $currentButton) {
                 $sequence->reset();
                 $this->unregisterRunning($sequence);
@@ -18,27 +18,27 @@ class SequenceRegistry
     
     public function registerRunning(Sequence $sequence)
     {
-        if (array_search($sequence, $this->_running, true) === false) {
-            $this->_running[] = $sequence;
+        if (array_search($sequence, $this->running, true) === false) {
+            $this->running[] = $sequence;
         }
     }
     
     public function unregisterRunning(Sequence $sequence)
     {
-        if (($key = array_search($sequence, $this->_running, true)) !== false) {
-            unset($this->_running[$key]);
+        if (($key = array_search($sequence, $this->running, true)) !== false) {
+            unset($this->running[$key]);
         }
     }
     
     public function getRunning()
     {
-        return $this->_running;
+        return $this->running;
     }
     
     public function unregisterAllRunning()
     {
-        foreach ($this->_running as $key => $sequence) {
-            unset($this->_running[$key]);
+        foreach ($this->running as $key => $sequence) {
+            unset($this->running[$key]);
         }
     }
 }

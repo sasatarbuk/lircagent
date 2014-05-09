@@ -4,53 +4,53 @@ namespace Lirc;
 
 class Agent
 {
-    private $_socket;
-    private $_configRegistry = null;
-    private $_buttonRegistry = null;
-    private $_buttonSequenceRegistry;
+    private $socket;
+    private $configRegistry = null;
+    private $buttonRegistry = null;
+    private $buttonSequenceRegistry;
     
     public function __construct($socket, $rcFile, $program, HandlerInterface $handler)
     {
-        if (@!($this->_socket = stream_socket_client($socket))) {
+        if (@!($this->socket = stream_socket_client($socket))) {
             throw new Exception("Cannot connect to specified socket");
         }
         
-        $this->_configRegistry = new Config\Registry();
-        $this->_buttonRegistry = new Button\Registry();
-        $this->_buttonSequenceRegistry = new Button\SequenceRegistry();
+        $this->configRegistry = new Config\Registry();
+        $this->buttonRegistry = new Button\Registry();
+        $this->buttonSequenceRegistry = new Button\SequenceRegistry();
         
         $events = Parser::parseRc($rcFile, $program);
         foreach ($events as $event) {
-            $this->_registerEvent($event, $handler);
+            $this->registerEvent($event, $handler);
         }
     }
     
     public function __destruct()
     {
-        $this->_buttonSequenceRegistry->unregisterAllRunning();
+        $this->buttonSequenceRegistry->unregisterAllRunning();
         
-        foreach ($this->_buttonRegistry->getRegistry() as $button) {
+        foreach ($this->buttonRegistry->getRegistry() as $button) {
             $button->unregisterAllSequences();
         }
         
-        stream_socket_shutdown($this->_socket, STREAM_SHUT_RDWR);
+        stream_socket_shutdown($this->socket, STREAM_SHUT_RDWR);
     }
     
     public function getSocket()
     {
-        return $this->_socket;
+        return $this->socket;
     }
     
     public function loop()
     {
-        if (!$this->_socket) {
+        if (!$this->socket) {
             throw new Exception("No connection");
         }
         
         while (true) {
-            $input = fread($this->_socket, 1024);
+            $input = fread($this->socket, 1024);
             foreach (Parser::parseInput($input) as $input) {
-                $button = $this->_buttonRegistry->get($input['button']);
+                $button = $this->buttonRegistry->get($input['button']);
                 $button->handlePress($input['iteration'], $input['remote']);
             }
         }
@@ -58,19 +58,19 @@ class Agent
     
     public function iteration($flush = false)
     {
-        $read   = array($this->_socket);
+        $read   = array($this->socket);
         $write  = null;
         $except = null;
         $input  = '';
         
         while (stream_select($read, $write, $except, 0) > 0) {
-            $input .= fread($this->_socket, 1024);
+            $input .= fread($this->socket, 1024);
         }
         
         $output = array();
         if (!$flush && $input != '') {
             foreach (Parser::parseInput($input) as $input) {
-                $button = $this->_buttonRegistry->get($input['button']);
+                $button = $this->buttonRegistry->get($input['button']);
                 $configsRun = $button->handlePress($input['iteration'], $input['remote']);
                 $output[] = array($configsRun, $button, $input['iteration'], $input['remote']);
             }
@@ -78,7 +78,7 @@ class Agent
         return $output;
     }
     
-    private function _registerEvent($rc, HandlerInterface $handler)
+    private function registerEvent($rc, HandlerInterface $handler)
     {
         if (isset($rc['button']) && isset($rc['config'])) {
             
@@ -86,16 +86,16 @@ class Agent
             $buttonSequence  = new Button\Sequence($configSequence);
             
             foreach ($rc['button'] as $button) {
-                $button = $this->_buttonRegistry->get($button);
+                $button = $this->buttonRegistry->get($button);
                 $button->registerSequence($buttonSequence);
                 $button->setSequenceRegistry(
-                    $this->_buttonSequenceRegistry
+                    $this->buttonSequenceRegistry
                 );
                 $buttonSequence->append($button);
             }
             
             foreach ($rc['config'] as $config) {
-                $config = $this->_configRegistry->get($config);
+                $config = $this->configRegistry->get($config);
                 $config->setHandler($handler);
                 $configSequence->append($config);
             }
