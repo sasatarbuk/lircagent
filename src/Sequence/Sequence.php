@@ -5,7 +5,7 @@ namespace Lirc\Sequence;
 abstract class Sequence
 {
     private $items = array();
-    protected $_currentItemKey = 0;
+    protected $currentItemKey = 0;
     
     public function append(Item $item)
     {
@@ -14,26 +14,26 @@ abstract class Sequence
     
     public function next()
     {
-        if ($this->_currentItemKey + 1 >= count($this->items)) {
-            $this->_currentItemKey = 0;
+        if ($this->currentItemKey + 1 >= count($this->items)) {
+            $this->currentItemKey = 0;
         } else {
-            $this->_currentItemKey ++;
+            $this->currentItemKey ++;
         }
         return $this->getCurrent();
     }
     
     public function getNext()
     {
-        if (isset($this->items[$this->_currentItemKey + 1])) {
-            return $this->items[$this->_currentItemKey + 1];
+        if (isset($this->items[$this->currentItemKey + 1])) {
+            return $this->items[$this->currentItemKey + 1];
         }
         return null;
     }
     
     public function getCurrent()
     {
-        if (isset($this->items[$this->_currentItemKey])) {
-            return $this->items[$this->_currentItemKey];
+        if (isset($this->items[$this->currentItemKey])) {
+            return $this->items[$this->currentItemKey];
         }
         return null;
     }
@@ -50,6 +50,6 @@ abstract class Sequence
     
     public function isAtStart()
     {
-        return $this->_currentItemKey === 0;
+        return $this->currentItemKey === 0;
     }
 }

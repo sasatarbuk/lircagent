@@ -21,7 +21,7 @@ class Sequence extends BaseSequence
     
     public function reset()
     {
-        $this->_currentItemKey = 0;
+        $this->currentItemKey = 0;
         return $this->getCurrent();
     }
     
