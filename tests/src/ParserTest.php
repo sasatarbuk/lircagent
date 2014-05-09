@@ -4,18 +4,18 @@ namespace Lirc;
 
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
-    private $_sampleLircrc;
+    private $sampleLircrc;
     
     public function setUp()
     {
-        $this->_sampleLircrc = realpath(
+        $this->sampleLircrc = realpath(
             __DIR__ . '/../samples/lircrc'
         );
     }
     
     public function testParseRc()
     {
-        $parsed = Parser::parseRc($this->_sampleLircrc, 'LircAgent Test');
+        $parsed = Parser::parseRc($this->sampleLircrc, 'LircAgent Test');
         $this->assertCount(15, $parsed);
         
         $this->assertSame($parsed[0]['remote'], 'LircAgent Remote');
@@ -31,7 +31,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParseRcError()
     {
-        $parsed = Parser::parseRc($this->_sampleLircrc.'/fake', 'LircAgent Test');
+        $parsed = Parser::parseRc($this->sampleLircrc.'/fake', 'LircAgent Test');
     }
     
     public function testParseInput()

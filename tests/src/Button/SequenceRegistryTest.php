@@ -6,62 +6,62 @@ use Lirc\Config\Sequence as ConfigSequence;
 
 class SequenceRegistryTest extends \PHPUnit_Framework_TestCase
 {
-    private $_sequence1;
-    private $_sequence2;
-    private $_sequenceRegistry;
+    private $sequence1;
+    private $sequence2;
+    private $sequenceRegistry;
     
     public function setUp()
     {
         $configSequence   = new ConfigSequence();
-        $this->_sequence1 = new Sequence($configSequence);
-        $this->_sequence2 = new Sequence($configSequence);
+        $this->sequence1 = new Sequence($configSequence);
+        $this->sequence2 = new Sequence($configSequence);
         
-        $this->_sequenceRegistry = new SequenceRegistry();
-        $this->_sequenceRegistry->registerRunning($this->_sequence1);
+        $this->sequenceRegistry = new SequenceRegistry();
+        $this->sequenceRegistry->registerRunning($this->sequence1);
     }
     
     public function testRegisterRunning()
     {
-        // Register $this->_sequence1 twice!
-        $this->_sequenceRegistry->registerRunning($this->_sequence1);
-        $this->_sequenceRegistry->registerRunning($this->_sequence2);
+        // Register $this->sequence1 twice!
+        $this->sequenceRegistry->registerRunning($this->sequence1);
+        $this->sequenceRegistry->registerRunning($this->sequence2);
         $this->assertSame(
             array(
-                $this->_sequence1,
-                $this->_sequence2,
+                $this->sequence1,
+                $this->sequence2,
             ),
-            $this->_sequenceRegistry->getRunning()
+            $this->sequenceRegistry->getRunning()
         );
     }
     
     public function testUnregisterRunning()
     {
-        $this->_sequenceRegistry->unregisterRunning($this->_sequence1);
-        $this->assertEmpty($this->_sequenceRegistry->getRunning());
+        $this->sequenceRegistry->unregisterRunning($this->sequence1);
+        $this->assertEmpty($this->sequenceRegistry->getRunning());
     }
     
     public function testUnregisterAllRunning()
     {
-        $this->_sequenceRegistry->unregisterAllRunning();
-        $this->assertEmpty($this->_sequenceRegistry->getRunning());
+        $this->sequenceRegistry->unregisterAllRunning();
+        $this->assertEmpty($this->sequenceRegistry->getRunning());
     }
     
     public function testResetBrokenRunning()
     {
         $button1 = new Button('Button1');
-        $button1->registerSequence($this->_sequence1);
-        $button1->setSequenceRegistry($this->_sequenceRegistry);
-        $this->_sequence1->append($button1);
+        $button1->registerSequence($this->sequence1);
+        $button1->setSequenceRegistry($this->sequenceRegistry);
+        $this->sequence1->append($button1);
         
         $button2 = new Button('Button2');
-        $button2->registerSequence($this->_sequence1);
-        $button2->setSequenceRegistry($this->_sequenceRegistry);
-        $this->_sequence1->append($button2);
+        $button2->registerSequence($this->sequence1);
+        $button2->setSequenceRegistry($this->sequenceRegistry);
+        $this->sequence1->append($button2);
         
-        $this->_sequence1->next();
-        $this->_sequenceRegistry->resetBrokenRunning($button1);
+        $this->sequence1->next();
+        $this->sequenceRegistry->resetBrokenRunning($button1);
         
-        $this->assertSame($this->_sequence1->getCurrent(), $button1);
-        $this->assertEmpty($this->_sequenceRegistry->getRunning());
+        $this->assertSame($this->sequence1->getCurrent(), $button1);
+        $this->assertEmpty($this->sequenceRegistry->getRunning());
     }
 }

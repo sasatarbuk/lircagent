@@ -6,53 +6,53 @@ use Lirc\Config\Sequence as ConfigSequence;
 
 class SequenceTest extends \PHPUnit_Framework_TestCase
 {
-    private $_configSequence;
-    private $_buttonSequence;
+    private $configSequence;
+    private $buttonSequence;
     
-    private $_button1;
-    private $_button2;
+    private $button1;
+    private $button2;
     
     public function setUp()
     {
-        $this->_configSequence = new ConfigSequence();
-        $this->_configSequence->setRemote('Remote1.conf');
-        $this->_buttonSequence = new Sequence($this->_configSequence);
+        $this->configSequence = new ConfigSequence();
+        $this->configSequence->setRemote('Remote1.conf');
+        $this->buttonSequence = new Sequence($this->configSequence);
         
-        $this->_button1 = new Button('Button');
-        $this->_button1->registerSequence($this->_buttonSequence);
-        $this->_buttonSequence->append($this->_button1);
+        $this->button1 = new Button('Button');
+        $this->button1->registerSequence($this->buttonSequence);
+        $this->buttonSequence->append($this->button1);
         
-        $this->_button2 = new Button('Button');
-        $this->_button2->registerSequence($this->_buttonSequence);
-        $this->_buttonSequence->append($this->_button2);
+        $this->button2 = new Button('Button');
+        $this->button2->registerSequence($this->buttonSequence);
+        $this->buttonSequence->append($this->button2);
     }
     
     public function testGetConfigSequence()
     {
         $this->assertSame(
-            $this->_configSequence,
-            $this->_buttonSequence->getConfigSequence()
+            $this->configSequence,
+            $this->buttonSequence->getConfigSequence()
         );
     }
     
     public function testReset()
     {
-        $this->_buttonSequence->next();
-        $this->assertSame($this->_button2, $this->_buttonSequence->getCurrent());
+        $this->buttonSequence->next();
+        $this->assertSame($this->button2, $this->buttonSequence->getCurrent());
         
-        $this->_buttonSequence->reset();
-        $this->assertSame($this->_button1, $this->_buttonSequence->getCurrent());
+        $this->buttonSequence->reset();
+        $this->assertSame($this->button1, $this->buttonSequence->getCurrent());
     }
     
     public function testRunConfigRemoteMismatch()
     {
-        $this->assertFalse($this->_buttonSequence->runConfig(0, 'Remote2.conf'));
+        $this->assertFalse($this->buttonSequence->runConfig(0, 'Remote2.conf'));
     }
     
     public function testRunConfig()
     {
-        $this->_configSequence->setRepeat(2);
-        $this->_configSequence->setDelay(3);
+        $this->configSequence->setRepeat(2);
+        $this->configSequence->setDelay(3);
         
         $config1 = $this->getMock(
             'Lirc\\Config\\Config',
@@ -93,23 +93,23 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo('Remote1.conf')
             );
         
-        $this->_configSequence->append($config1);
-        $this->_configSequence->append($config2);
-        $this->_configSequence->append($config3);
+        $this->configSequence->append($config1);
+        $this->configSequence->append($config2);
+        $this->configSequence->append($config3);
         
-        $this->assertSame($config1, $this->_buttonSequence->runConfig(0, 'Remote1.conf'));
-        $this->assertFalse($this->_buttonSequence->runConfig(1, 'Remote1.conf'));
-        $this->assertFalse($this->_buttonSequence->runConfig(2, 'Remote1.conf'));
-        $this->assertFalse($this->_buttonSequence->runConfig(3, 'Remote1.conf'));
-        $this->assertSame($config2, $this->_buttonSequence->runConfig(4, 'Remote1.conf'));
-        $this->assertFalse($this->_buttonSequence->runConfig(5, 'Remote1.conf'));
-        $this->assertSame($config3, $this->_buttonSequence->runConfig(6, 'Remote1.conf'));
+        $this->assertSame($config1, $this->buttonSequence->runConfig(0, 'Remote1.conf'));
+        $this->assertFalse($this->buttonSequence->runConfig(1, 'Remote1.conf'));
+        $this->assertFalse($this->buttonSequence->runConfig(2, 'Remote1.conf'));
+        $this->assertFalse($this->buttonSequence->runConfig(3, 'Remote1.conf'));
+        $this->assertSame($config2, $this->buttonSequence->runConfig(4, 'Remote1.conf'));
+        $this->assertFalse($this->buttonSequence->runConfig(5, 'Remote1.conf'));
+        $this->assertSame($config3, $this->buttonSequence->runConfig(6, 'Remote1.conf'));
     }
     
     public function testRunConfigNoDelay()
     {
-        $this->_configSequence->setRepeat(2);
-        $this->_configSequence->setDelay(0);
+        $this->configSequence->setRepeat(2);
+        $this->configSequence->setDelay(0);
         
         $config1 = $this->getMock(
             'Lirc\\Config\\Config',
@@ -131,10 +131,10 @@ class SequenceTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo('Remote1.conf')
             );
         
-        $this->_configSequence->append($config1);
+        $this->configSequence->append($config1);
         
-        $this->assertSame($config1, $this->_buttonSequence->runConfig(0, 'Remote1.conf'));
-        $this->assertFalse($this->_buttonSequence->runConfig(1, 'Remote1.conf'));
-        $this->assertSame($config1, $this->_buttonSequence->runConfig(2, 'Remote1.conf'));
+        $this->assertSame($config1, $this->buttonSequence->runConfig(0, 'Remote1.conf'));
+        $this->assertFalse($this->buttonSequence->runConfig(1, 'Remote1.conf'));
+        $this->assertSame($config1, $this->buttonSequence->runConfig(2, 'Remote1.conf'));
     }
 }

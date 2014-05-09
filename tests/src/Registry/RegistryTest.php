@@ -4,11 +4,11 @@ namespace Lirc\Registry;
 
 class RegistryTest extends \PHPUnit_Framework_TestCase
 {
-    private $_registry;
+    private $registry;
     
     public function setUp()
     {
-        $this->_registry = $this->getMockForAbstractClass(
+        $this->registry = $this->getMockForAbstractClass(
             'Lirc\\Registry\\Registry',
             array('Lirc\\Button\\Button')
         );
@@ -16,17 +16,17 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
     
     public function testGet()
     {
-        $button1 = $this->_registry->get('Button1');
+        $button1 = $this->registry->get('Button1');
         $this->assertInstanceOf('Lirc\\Button\\Button', $button1);
     }
     
     public function testGetRegistry()
     {
         $expected = array(
-            'Button1' => $this->_registry->get('Button1'),
-            'Button2' => $this->_registry->get('Button2'),
+            'Button1' => $this->registry->get('Button1'),
+            'Button2' => $this->registry->get('Button2'),
         );
-        $actual = $this->_registry->getRegistry();
+        $actual = $this->registry->getRegistry();
         $this->assertSame($expected, $actual);
     }
 }
